@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="description" content="Vermeulen — Cabinet d'expertise comptable, conseil financier et consolidation. Votre partenaire comptable et pilote financier." />
+  <title>VERMEULEN — Conseil Financier · Consolidation · Expertise Comptable</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --dg:  #00281B;
+      --vp:  #1E4633;
+      --fl:  #D0F17B;
+      --lg:  #F4F2F0;
+      --wh:  #FFFFFF;
+      --td:  #0A0A0A;
+      --tm:  #5A6A62;
+      --br:  rgba(0,40,27,.12);
+      --f:   'Inter','Helvetica Neue',Arial,sans-serif;
+      --nh:  68px;
+      --r1:  6px; --r2: 12px; --r3: 20px; --r4: 32px;
+      --s1:  0 1px 3px rgba(0,40,27,.08);
+      --s2:  0 4px 16px rgba(0,40,27,.10);
+      --s3:  0 12px 40px rgba(0,40,27,.14);
+      --s4:  0 24px 64px rgba(0,40,27,.18);
+      --tf:  150ms cubic-bezier(.4,0,.2,1);
+      --tn:  250ms cubic-bezier(.4,0,.2,1);
+      --ts:  400ms cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ── RESET ── */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;font-size:16px}
+    body{font-family:var(--f);color:var(--td);background:var(--lg);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    a{text-decoration:none;color:inherit}ul{list-style:none}
+    button{cursor:pointer;border:none;background:none;font-family:inherit}
+    input,textarea,select{font-family:inherit}
+    img{display:block;max-width:100%}
+
+    /* ── SKIP LINK ── */
+    .skip{position:absolute;top:-100%;left:16px;background:var(--fl);color:var(--dg);padding:8px 16px;border-radius:var(--r1);font-weight:600;z-index:9999;transition:top var(--tf)}
+    .skip:focus{top:16px}
+
+    /* ── SPLASH ── */
+    #splash {
+      position: fixed; inset: 0; z-index: 9000;
+      background: #F4F2F0;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      transition: transform 2.6s cubic-bezier(.37,0,.13,1);
+    }
+    #splash.sp-hidden { display: none; }
+    #splash.sp-up {
+      transform: translateY(-100%);
+      pointer-events: none;
+    }
+
+    #sp-word {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(36px, 6.5vw, 96px);
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #00281B;
+      user-select: none;
+      cursor: default;
+      transition: transform .28s cubic-bezier(.25,.1,.25,1),
+                  letter-spacing .28s cubic-bezier(.25,.1,.25,1),
+                  color .28s ease;
+    }
+    #sp-word.sp-hov {
+      transform: scale(1.05);
+      letter-spacing: .15em;
+      color: #1E4633;
+    }
+    #sp-word.sp-tap {
+      transform: scale(0.97);
+      letter-spacing: .11em;
+      transition: transform .08s ease, letter-spacing .08s ease, color .08s ease;
+    }
+
+    #sp-cursor {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 24px; height: 24px;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+    #sp-cursor svg { display: block; transition: transform .22s ease; }
+    #sp-cursor.sp-hov svg { transform: scale(1.28); }
+    #sp-cursor.sp-tap svg { transform: scale(0.55); transition: transform .1s ease; }
+
+    @media (pointer: coarse) { #sp-cursor { display: none; } }
+
+    /* ── NAVBAR ── */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nh); display: flex; align-items: center;
+      z-index: 1000;
+      transition: background var(--tn), box-shadow var(--tn);
+    }
+    #navbar.scrolled {
+      background: rgba(244,242,240,.92);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      box-shadow: var(--s1);
+    }
+    .nav-inner {
+      position: relative;
+      width: 100%; max-width: 1280px; margin: 0 auto;
+      padding: 0 40px;
+      display: flex; align-items: center;
+    }
+    /* Logo: V box only, anchored left */
+    .nav-logo {
+      display: flex; align-items: center;
+      flex-shrink: 0; z-index: 1;
+    }
+    .nav-logo-box {
+      width: 32px; height: 32px; border-radius: var(--r1);
+      background: var(--fl); display: flex; align-items: center; justify-content: center;
+      transition: background var(--tf);
+    }
+    #navbar.scrolled .nav-logo-box { background: var(--dg); }
+    .nav-logo-v {
+      font-size: 17px; font-weight: 800; color: var(--dg);
+      transition: color var(--tf); line-height: 1;
+    }
+    #navbar.scrolled .nav-logo-v { color: var(--fl); }
+
+    /* Nav links: absolutely centred in the full header width */
+    .nav-menu {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 40px;
+    }
+    .nav-link {
+      font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+      color: rgba(244,242,240,.65); position: relative;
+      padding-bottom: 4px;
+      transition: color var(--tf);
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 100%;
+      height: 2px; border-radius: 1px;
+      background: var(--fl);
+      transition: right var(--tn);
+    }
+    .nav-link:hover { color: var(--fl); }
+    .nav-link:hover::after { right: 0; }
+    .nav-link.active { color: var(--fl); }
+    .nav-link.active::after { right: 0; }
+
+    #navbar.scrolled .nav-link { color: var(--tm); }
+    #navbar.scrolled .nav-link::after { background: var(--dg); }
+    #navbar.scrolled .nav-link:hover,
+    #navbar.scrolled .nav-link.active { color: var(--dg); }
+
+    .nav-burger { display: none; flex-direction: column; gap: 5px; padding: 8px; }
+    .nav-burger span { display: block; width: 22px; height: 2px; background: var(--fl); border-radius: 2px; transition: transform var(--tn), opacity var(--tn); }
+    #navbar.scrolled .nav-burger span { background: var(--dg); }
+    .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .nav-mobile {
+      position: fixed; top: var(--nh); left: 0; right: 0;
+      background: rgba(0,40,27,.97); backdrop-filter: blur(20px);
+      padding: 40px; display: flex; flex-direction: column; gap: 24px;
+      transform: translateY(-100%); opacity: 0; pointer-events: none;
+      transition: transform var(--ts), opacity var(--ts); z-index: 999;
+    }
+    .nav-mobile.open { transform: none; opacity: 1; pointer-events: all; }
+    .nav-mobile a { font-size: 20px; font-weight: 500; color: rgba(244,242,240,.8); transition: color var(--tf); }
+    .nav-mobile a:hover { color: var(--fl); }
+
+    /* ── LAYOUT ── */
+    .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+    .section-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--vp); margin-bottom: 16px;
+    }
+    .section-tag::before { content: ''; width: 20px; height: 1.5px; background: var(--fl); }
+    .h2 { font-size: clamp(28px,4vw,48px); font-weight: 700; line-height: 1.15; letter-spacing: -.02em; color: var(--dg); margin-bottom: 16px; }
+    .lead { font-size: 18px; font-weight: 300; color: var(--tm); line-height: 1.7; max-width: 560px; }
+
+    /* ── REVEAL ── */
+    .rv { opacity: 0; transform: translateY(28px); transition: opacity .6s cubic-bezier(.4,0,.2,1), transform .6s cubic-bezier(.4,0,.2,1); }
+    .rv.in { opacity: 1; transform: none; }
+    .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+    @media(prefers-reduced-motion:reduce){ *{ animation-duration:.001ms!important; transition-duration:.001ms!important } .rv{opacity:1;transform:none} }
+
+    /* ════════════════════════════════════
+       HERO — SCROLL EXPANSION
+    ════════════════════════════════════ */
+    #hero-scene { height: 280vh; background: var(--dg); position: relative; }
+
+    #hero-sticky {
+      position: sticky; top: 0; height: 100dvh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      overflow: hidden; background: var(--dg);
+    }
+    .hero-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(208,241,123,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(208,241,123,.03) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+
+    /* Wordmark */
+    #hero-wm {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      z-index: 2; pointer-events: none;
+      will-change: opacity, transform;
+      animation: hmIn .9s .2s cubic-bezier(.4,0,.2,1) both;
+    }
+    @keyframes hmIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+    #hero-title {
+      font-size: clamp(52px,9vw,120px); font-weight: 800;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: var(--fl); line-height: 1; text-align: center;
+    }
+    #hero-sub {
+      margin-top: 22px;
+      font-size: clamp(12px,1.3vw,16px); font-weight: 400;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: rgba(208,241,123,.82); text-align: center;
+    }
+
+    /* Expanding card */
+    #hero-card-wrap {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      z-index: 1; will-change: width, height;
+      animation: hmIn .9s .4s cubic-bezier(.4,0,.2,1) both;
+    }
+    #hero-card {
+      width: 640px; height: 390px;
+      border-radius: 18px; overflow: hidden; position: relative;
+      box-shadow: 0 0 60px rgba(0,0,0,.35);
+      will-change: width, height, border-radius;
+    }
+    .hc-bg { position: absolute; inset: 0; background: linear-gradient(145deg, rgba(30,70,51,.95) 0%, rgba(0,40,27,1) 45%, rgba(8,28,18,1) 100%); }
+    .hc-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(208,241,123,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(208,241,123,.07) 1px, transparent 1px); background-size: 48px 48px; }
+    .hc-glow { position: absolute; inset: 0; background: radial-gradient(ellipse 65% 55% at 28% 38%, rgba(208,241,123,.11) 0%, transparent 65%); }
+    .hc-v { position: absolute; bottom: -50px; right: -24px; font-size: 280px; font-weight: 800; color: rgba(208,241,123,.05); line-height: 1; letter-spacing: -.06em; pointer-events: none; user-select: none; }
+
+    /* Content that fades in when card is fully expanded */
+    #hc-content {
+      position: absolute; inset: 0; z-index: 3;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      padding: clamp(24px, 6vw, 72px);
+      background: radial-gradient(ellipse at center, rgba(0,20,12,.65) 0%, rgba(0,20,12,.35) 100%);
+      opacity: 0; transition: opacity .5s ease;
+      text-align: center;
+    }
+    #hc-content.vis { opacity: 1; }
+    .hc-tagline {
+      font-size: clamp(22px, 3.2vw, 52px); font-weight: 700;
+      color: var(--wh); line-height: 1.2; letter-spacing: -.02em;
+      max-width: min(90%, 620px);
+    }
+    .hc-tagline em { font-style: normal; color: var(--fl); }
+
+    /* Scroll hint */
+    #hc-scroll {
+      position: absolute; bottom: 36px; right: 48px;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      z-index: 3; opacity: 0; transition: opacity .5s ease;
+    }
+    #hc-scroll.vis { opacity: 1; }
+    #hc-scroll span { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.3); }
+    .sline { width: 1px; height: 40px; background: linear-gradient(to bottom, rgba(208,241,123,.5), transparent); animation: sp 1.8s ease-in-out infinite; }
+    @keyframes sp { 0%,100%{opacity:.3} 50%{opacity:1} }
+
+    /* ════════════════════════════════════
+       CABINET
+    ════════════════════════════════════ */
+    #cabinet { background: var(--wh); padding: 120px 0; }
+
+    .cabinet-intro {
+      display: block;
+      margin-bottom: 96px;
+    }
+    .cabinet-intro-text {}
+    .cabinet-intro-text .lead { max-width: 100%; margin-bottom: 24px; }
+    .cabinet-tagstrip {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-top: 32px;
+    }
+    .tagpill {
+      font-size: 12px; font-weight: 500; letter-spacing: .06em;
+      padding: 6px 14px; border-radius: 100px;
+      background: var(--lg); color: var(--vp); border: 1px solid var(--br);
+    }
+
+    /* Valeurs */
+    .cabinet-values { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; }
+    .val-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 20px; background: var(--lg); border-radius: var(--r2);
+      border-left: 3px solid var(--fl);
+    }
+    .val-icon svg { width: 20px; height: 20px; color: var(--dg); flex-shrink: 0; margin-top: 2px; }
+    .val-title { font-size: 15px; font-weight: 600; color: var(--dg); margin-bottom: 4px; }
+    .val-text  { font-size: 13px; color: var(--tm); line-height: 1.6; }
+
+    /* Founders */
+    .founders-header { text-align: center; margin-bottom: 48px; }
+    .founders-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .founder-card {
+      background: var(--lg); border-radius: var(--r3);
+      overflow: hidden; border: 1px solid var(--br);
+      transition: box-shadow var(--tn), transform var(--tn);
+    }
+    .founder-card:hover { box-shadow: var(--s3); transform: translateY(-4px); }
+    .founder-photo {
+      height: 280px; background: linear-gradient(135deg, var(--dg) 0%, var(--vp) 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .founder-photo::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(208,241,123,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(208,241,123,.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .founder-photo-icon {
+      position: relative; z-index: 1;
+      width: 96px; height: 96px; border-radius: 50%;
+      border: 2px solid rgba(208,241,123,.25);
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(208,241,123,.06);
+    }
+    .founder-photo-icon svg { width: 44px; height: 44px; color: rgba(208,241,123,.45); }
+    .founder-photo-label {
+      position: absolute; bottom: 16px; left: 16px;
+      font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(208,241,123,.35); background: rgba(0,40,27,.5);
+      padding: 4px 10px; border-radius: 4px;
+      backdrop-filter: blur(4px);
+    }
+    .founder-body { padding: 28px 32px; }
+    .founder-name { font-size: 20px; font-weight: 700; color: var(--dg); margin-bottom: 4px; }
+    .founder-role { font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--vp); margin-bottom: 16px; }
+    .founder-bio  { font-size: 14px; color: var(--tm); line-height: 1.7; }
+
+    /* ════════════════════════════════════
+       EXPERTISES
+    ════════════════════════════════════ */
+    #expertises { background: var(--lg); padding: 120px 0; }
+
+    .expertises-header { text-align: center; margin-bottom: 64px; }
+    .expertises-header .lead { margin: 0 auto; text-align: center; }
+
+    .exp-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-bottom: 80px; }
+    .exp-card {
+      background: var(--wh); border-radius: var(--r3); padding: 40px 36px;
+      border: 1px solid transparent; position: relative; overflow: hidden;
+      transition: border-color var(--tn), box-shadow var(--tn), transform var(--tn);
+    }
+    .exp-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, var(--fl), transparent); opacity:0; transition: opacity var(--tn); }
+    .exp-card:hover { border-color: rgba(0,40,27,.1); box-shadow: var(--s3); transform: translateY(-4px); }
+    .exp-card:hover::before { opacity: 1; }
+    .exp-icon { width: 52px; height: 52px; background: var(--dg); border-radius: var(--r2); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; transition: background var(--tn); }
+    .exp-card:hover .exp-icon { background: var(--vp); }
+    .exp-icon svg { width: 24px; height: 24px; color: var(--fl); }
+    .exp-num { font-size: 11px; font-weight: 600; letter-spacing: .12em; color: var(--fl); background: var(--dg); display: inline-block; padding: 3px 8px; border-radius: 4px; margin-bottom: 16px; }
+    .exp-name { font-size: 22px; font-weight: 700; color: var(--dg); margin-bottom: 12px; line-height: 1.2; }
+    .exp-desc { font-size: 15px; color: var(--tm); line-height: 1.7; margin-bottom: 24px; }
+    .exp-list { display: flex; flex-direction: column; gap: 8px; }
+    .exp-list li { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--tm); }
+    .exp-list li::before { content:''; width: 5px; height: 5px; border-radius: 50%; background: var(--fl); flex-shrink: 0; }
+
+    /* Accompagnement detail */
+    .accomp-wrap {
+      background: var(--dg); border-radius: var(--r4); padding: 64px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+    }
+    .accomp-left {}
+    .accomp-left .section-tag { color: var(--fl); }
+    .accomp-left .section-tag::before { background: var(--fl); }
+    .accomp-left .h2 { color: var(--wh); }
+    .accomp-left .lead { color: rgba(244,242,240,.65); margin-bottom: 32px; }
+    .accomp-steps { display: flex; flex-direction: column; gap: 24px; }
+    .accomp-step { display: flex; gap: 20px; align-items: flex-start; }
+    .step-circle {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(208,241,123,.1); border: 1px solid rgba(208,241,123,.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: var(--fl);
+      flex-shrink: 0;
+    }
+    .step-body .step-t { font-size: 15px; font-weight: 600; color: var(--wh); margin-bottom: 4px; }
+    .step-body .step-d { font-size: 13px; color: rgba(244,242,240,.5); line-height: 1.6; }
+
+    .accomp-right { display: flex; flex-direction: column; gap: 16px; }
+    .accomp-stat {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(208,241,123,.1);
+      border-radius: var(--r2); padding: 24px 28px;
+      transition: border-color var(--tn), background var(--tn);
+    }
+    .accomp-stat:hover { border-color: rgba(208,241,123,.25); background: rgba(255,255,255,.08); }
+    .accomp-stat-n { font-size: 40px; font-weight: 800; color: var(--fl); letter-spacing: -.04em; line-height: 1; }
+    .accomp-stat-l { font-size: 14px; color: rgba(244,242,240,.5); margin-top: 4px; }
+
+    /* ════════════════════════════════════
+       RÉFÉRENCES
+    ════════════════════════════════════ */
+    #references { background: var(--wh); padding: 120px 0; overflow: hidden; }
+
+    .ref-header { text-align: center; margin-bottom: 64px; }
+    .ref-header .lead { margin: 0 auto; text-align: center; }
+
+    /* Marquee */
+    .marquee-wrap {
+      position: relative; overflow: hidden;
+      margin: 0 -40px; /* bleed to edges */
+    }
+    .marquee-fade-l { position: absolute; top: 0; left: 0; bottom: 0; width: 120px; z-index: 2; background: linear-gradient(to right, var(--wh), transparent); pointer-events: none; }
+    .marquee-fade-r { position: absolute; top: 0; right: 0; bottom: 0; width: 120px; z-index: 2; background: linear-gradient(to left, var(--wh), transparent); pointer-events: none; }
+
+    .marquee-track {
+      display: flex; align-items: center; gap: 0;
+      animation: marqueeScroll 28s linear infinite;
+      width: max-content;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes marqueeScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    .logo-chip {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 24px 48px; flex-shrink: 0;
+      border-right: 1px solid var(--br);
+      transition: background var(--tf);
+      min-width: 200px; text-align: center;
+    }
+    .logo-chip:hover { background: var(--lg); }
+    .logo-chip-name {
+      font-size: 18px; font-weight: 700; letter-spacing: .04em;
+      color: var(--dg); margin-bottom: 4px;
+    }
+    .logo-chip-sector { font-size: 11px; color: var(--tm); letter-spacing: .08em; text-transform: uppercase; }
+
+    /* Results grid */
+    .ref-results { margin-top: 72px; display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
+    .ref-result {
+      background: var(--lg); border-radius: var(--r2); padding: 32px 28px;
+      text-align: center; border: 1px solid var(--br);
+      transition: box-shadow var(--tn), transform var(--tn);
+    }
+    .ref-result:hover { box-shadow: var(--s2); transform: translateY(-3px); }
+    .ref-result-n { font-size: 40px; font-weight: 800; color: var(--dg); letter-spacing: -.04em; line-height: 1; margin-bottom: 8px; }
+    .ref-result-l { font-size: 13px; color: var(--tm); line-height: 1.5; }
+
+    /* Testimonials strip */
+    .ref-testimonials { margin-top: 72px; display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+    .test-card {
+      background: var(--lg); border-radius: var(--r3); padding: 36px;
+      border: 1px solid var(--br);
+      transition: box-shadow var(--tn), transform var(--tn);
+    }
+    .test-card:hover { box-shadow: var(--s2); transform: translateY(-3px); }
+    .test-q { font-size: 28px; color: var(--fl); background: var(--dg); display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; margin-bottom: 16px; font-family: Georgia,serif; line-height: 1; }
+    .test-text { font-size: 15px; color: var(--tm); line-height: 1.7; font-style: italic; margin-bottom: 20px; }
+    .test-author { display: flex; align-items: center; gap: 12px; }
+    .test-av { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--dg), var(--vp)); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--wh); font-size: 14px; flex-shrink: 0; }
+    .test-name { font-size: 14px; font-weight: 600; color: var(--dg); }
+    .test-role { font-size: 12px; color: var(--tm); }
+
+    /* ════════════════════════════════════
+       CONTACT
+    ════════════════════════════════════ */
+    #contact { background: var(--lg); padding: 120px 0; }
+    .contact-grid { display: flex; flex-direction: column; align-items: center; gap: 56px; }
+    .contact-left {}
+    .contact-left .lead { margin-bottom: 40px; }
+    .cdetails { display: flex; flex-direction: column; gap: 20px; }
+    .cdetail { display: flex; align-items: center; gap: 16px; }
+    .cdetail-ico { width: 44px; height: 44px; background: var(--dg); border-radius: var(--r1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .cdetail-ico svg { width: 18px; height: 18px; color: var(--fl); }
+    .cdetail-lbl { font-size: 11px; color: var(--tm); text-transform: uppercase; letter-spacing: .08em; }
+    .cdetail-val { font-size: 15px; font-weight: 500; color: var(--dg); }
+    .cform { background: var(--wh); border-radius: var(--r4); padding: 48px; box-shadow: var(--s2); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .fg { margin-bottom: 20px; }
+    .fl-lbl { display: block; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--tm); margin-bottom: 8px; }
+    .fl-lbl .req { color: var(--vp); margin-left: 2px; }
+    .fi,.fs,.ft { width: 100%; padding: 14px 16px; border: 1.5px solid var(--br); border-radius: var(--r2); font-size: 15px; color: var(--dg); background: var(--wh); outline: none; appearance: none; transition: border-color var(--tf), box-shadow var(--tf); }
+    .fi:focus,.fs:focus,.ft:focus { border-color: var(--vp); box-shadow: 0 0 0 3px rgba(30,70,51,.1); }
+    .ft { min-height: 130px; resize: vertical; }
+    .fs { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235A6A62' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; }
+    .fsubmit { width: 100%; padding: 16px; background: var(--dg); color: var(--fl); font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; border-radius: var(--r2); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: transform var(--tf), box-shadow var(--tf), background var(--tf); touch-action: manipulation; }
+    .fsubmit:hover { background: var(--vp); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,40,27,.25); }
+    .fsuccess { display: none; background: rgba(208,241,123,.15); border: 1px solid rgba(208,241,123,.4); border-radius: var(--r2); padding: 16px; color: var(--dg); font-size: 15px; font-weight: 500; text-align: center; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--dg); padding: 80px 0 32px; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 64px; margin-bottom: 64px; }
+    .footer-logo { font-size: 20px; font-weight: 800; letter-spacing: .1em; color: var(--fl); text-transform: uppercase; margin-bottom: 12px; }
+    .footer-desc { font-size: 14px; color: rgba(244,242,240,.4); line-height: 1.7; max-width: 260px; }
+    .fcol-t { font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: rgba(244,242,240,.3); margin-bottom: 20px; }
+    .flinks { display: flex; flex-direction: column; gap: 10px; }
+    .flinks a { font-size: 14px; color: rgba(244,242,240,.55); transition: color var(--tf); }
+    .flinks a:hover { color: var(--fl); }
+    .footer-bot { border-top: 1px solid rgba(244,242,240,.08); padding-top: 28px; display: flex; align-items: center; justify-content: space-between; }
+    .footer-copy { font-size: 13px; color: rgba(244,242,240,.28); }
+    .footer-legal { display: flex; gap: 32px; }
+    .footer-legal a { font-size: 13px; color: rgba(244,242,240,.28); transition: color var(--tf); }
+    .footer-legal a:hover { color: rgba(244,242,240,.55); }
+
+    /* ── BUTTONS ── */
+    .btn-lime { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; letter-spacing: .06em; padding: 14px 28px; border-radius: var(--r1); background: var(--fl); color: var(--dg); transition: transform var(--tf), box-shadow var(--tf); }
+    .btn-lime:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(208,241,123,.35); }
+    .btn-dark { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; letter-spacing: .06em; padding: 14px 28px; border-radius: var(--r1); background: var(--dg); color: var(--fl); transition: transform var(--tf), box-shadow var(--tf); }
+    .btn-dark:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,40,27,.25); }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:1024px) {
+      .container{padding:0 24px}
+      .nav-inner{padding:0 24px}
+      .cabinet-intro{grid-template-columns:1fr;gap:48px}
+      .founders-grid{grid-template-columns:1fr}
+      .exp-grid{grid-template-columns:1fr 1fr}
+      .accomp-wrap{grid-template-columns:1fr;gap:40px;padding:40px}
+      .ref-results{grid-template-columns:repeat(2,1fr)}
+      .ref-testimonials{grid-template-columns:1fr}
+      .contact-grid{grid-template-columns:1fr}
+      .footer-top{grid-template-columns:1fr 1fr;gap:40px}
+      #hero-card{width:min(480px,85vw)!important;height:320px!important}
+    }
+    @media(max-width:768px) {
+      .nav-menu{display:none}
+      .nav-burger{display:flex}
+      .exp-grid{grid-template-columns:1fr}
+      .ref-results{grid-template-columns:1fr 1fr}
+      .footer-top{grid-template-columns:1fr}
+      .footer-bot{flex-direction:column;gap:16px;text-align:center}
+      .footer-legal{flex-wrap:wrap;justify-content:center}
+      .form-row{grid-template-columns:1fr}
+      #hero-card{width:calc(100vw - 32px)!important;height:260px!important}
+      #hc-scroll{right:24px!important;bottom:24px!important}
+      .marquee-wrap{margin:0 -24px}
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#cabinet" class="skip">Aller au contenu</a>
+
+  <!-- ── SPLASH ── -->
+  <div id="splash" role="dialog" aria-label="Vermeulen" aria-modal="true">
+    <div id="sp-word" aria-label="Vermeulen">VERMEULEN</div>
+    <div id="sp-cursor" aria-hidden="true">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="10" stroke="#00281B" stroke-width="1.2"/>
+        <circle cx="12" cy="12" r="2.8" fill="#00281B"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ── NAVBAR ── -->
+  <nav id="navbar" role="navigation" aria-label="Navigation principale">
+    <div class="nav-inner">
+      <a href="#hero-scene" class="nav-logo" aria-label="Vermeulen — accueil">
+        <div class="nav-logo-box"><span class="nav-logo-v">V</span></div>
+      </a>
+      <ul class="nav-menu" role="list">
+        <li><a href="#cabinet"    class="nav-link" data-section="cabinet">Cabinet</a></li>
+        <li><a href="#expertises" class="nav-link" data-section="expertises">Expertises</a></li>
+        <li><a href="#references" class="nav-link" data-section="references">Références</a></li>
+        <li><a href="#contact"    class="nav-link" data-section="contact">Contact</a></li>
+      </ul>
+      <button class="nav-burger" aria-label="Menu" aria-expanded="false" aria-controls="nav-mob">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="nav-mobile" id="nav-mob" role="dialog" aria-label="Menu mobile">
+    <a href="#cabinet"    class="mob-link">Cabinet</a>
+    <a href="#expertises" class="mob-link">Expertises</a>
+    <a href="#references" class="mob-link">Références</a>
+    <a href="#contact"    class="mob-link">Contact</a>
+  </div>
+
+  <main id="main">
+
+    <!-- ════════════════════════════════════
+         HERO — SCROLL EXPANSION
+    ════════════════════════════════════ -->
+    <div id="hero-scene" aria-label="Accueil Vermeulen">
+      <div id="hero-sticky">
+        <div class="hero-grid" aria-hidden="true"></div>
+
+        <!-- Wordmark -->
+        <div id="hero-wm" aria-label="Vermeulen">
+          <div id="hero-title" aria-hidden="true">VERMEULEN</div>
+          <div id="hero-sub"   aria-hidden="true">Conseil Financier · Consolidation · Expertise Comptable</div>
+        </div>
+
+        <!-- Expanding card -->
+        <div id="hero-card-wrap" aria-hidden="true">
+          <div id="hero-card">
+            <div class="hc-bg"></div>
+            <div class="hc-grid"></div>
+            <div class="hc-glow"></div>
+            <div class="hc-v">V</div>
+            <div id="hc-content">
+              <p class="hc-tagline">Votre partenaire comptable<br>et <em>pilote financier</em></p>
+            </div>
+            <div id="hc-scroll">
+              <span>Défiler</span>
+              <div class="sline"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════
+         CABINET
+    ════════════════════════════════════ -->
+    <section id="cabinet" aria-labelledby="cabinet-title">
+      <div class="container">
+
+        <!-- Qui sommes-nous + Valeurs -->
+        <div class="cabinet-intro">
+          <div class="rv">
+            <p class="section-tag">Qui sommes-nous</p>
+            <h2 class="h2" id="cabinet-title">Une expertise financière au service des entrepreneurs</h2>
+            <p class="lead">Vermeulen Associés accompagne entrepreneurs, dirigeants et groupes en croissance dans leurs enjeux comptables, financiers et stratégiques.</p>
+            <p class="lead" style="margin-top:16px;">Fondé par deux experts-comptables et commissaires aux comptes issus de cabinets de premier plan, le cabinet combine expertise technique, vision financière et proximité avec les dirigeants.</p>
+            <p class="lead" style="margin-top:16px;">Nous intervenons sur l'ensemble du cycle de vie des entreprises, de la structuration des fonctions finance à l'établissement des états financiers, en passant par le pilotage de la performance, la consolidation et l'accompagnement des opérations stratégiques.</p>
+            <div class="cabinet-tagstrip">
+              <span class="tagpill">Membre IEC</span>
+              <span class="tagpill">Membre IRE</span>
+              <span class="tagpill">IFRS certifié</span>
+              <span class="tagpill">BE GAAP</span>
+              <span class="tagpill">Bruxelles</span>
+            </div>
+          </div>
+          <div class="cabinet-values rv d2" role="list" aria-label="Nos valeurs">
+            <div class="val-item" role="listitem">
+              <div class="val-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+              <div><div class="val-title">Contact direct avec les associés</div><div class="val-text">Chaque mission est pilotée directement par les fondateurs du cabinet.</div></div>
+            </div>
+            <div class="val-item" role="listitem">
+              <div class="val-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+              <div><div class="val-title">Expertise reconnue</div><div class="val-text">Une expérience acquise au sein de cabinets internationaux de référence.</div></div>
+            </div>
+            <div class="val-item" role="listitem">
+              <div class="val-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg></div>
+              <div><div class="val-title">Vision entrepreneuriale</div><div class="val-text">Des recommandations pragmatiques adaptées aux enjeux des dirigeants.</div></div>
+            </div>
+            <div class="val-item" role="listitem">
+              <div class="val-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/><circle cx="12" cy="5" r="3"/><path d="M6.168 18.849A6 6 0 0 1 12 16a6 6 0 0 1 5.832 2.849"/></svg></div>
+              <div><div class="val-title">Accompagnement sur mesure</div><div class="val-text">Une intervention flexible selon le stade de développement et les besoins de chaque entreprise.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fondateurs -->
+        <div class="founders-header rv">
+          <p class="section-tag" style="justify-content:center">Les fondateurs</p>
+          <h2 class="h2" style="text-align:center;margin-bottom:0">Deux expertises, une vision commune</h2>
+        </div>
+
+        <div class="founders-grid">
+          <div class="founder-card rv d1">
+            <div class="founder-photo" aria-label="Photo de Marc Vermeulen">
+              <div class="founder-photo-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <div class="founder-photo-label">Emplacement photo</div>
+            </div>
+            <div class="founder-body">
+              <div class="founder-name">Arnaud Vermeulen</div>
+              <div class="founder-role">Associé · Expert-comptable &amp; Commissaire aux comptes</div>
+              <p class="founder-bio">Conseil financier et direction financière externalisée. Arnaud accompagne les entrepreneurs, start-ups et PME dans le pilotage de leur performance financière et la structuration de leurs fonctions finance.</p>
+              <p class="founder-bio" style="margin-top:12px">Avant de co-fonder Vermeulen Associés, il a exercé chez Deloitte puis Eight Advisory, où il est intervenu sur des missions d'audit, de restructuring et de conseil financier en situation complexe.</p>
+              <p class="founder-bio" style="margin-top:12px">Il accompagne aujourd'hui les dirigeants dans la mise en place de reportings financiers, la gestion de la trésorerie, les opérations stratégiques et la structuration de leur organisation financière.</p>
+            </div>
+          </div>
+
+          <div class="founder-card rv d2">
+            <div class="founder-photo" aria-label="Photo de Sophie Claes">
+              <div class="founder-photo-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <div class="founder-photo-label">Emplacement photo</div>
+            </div>
+            <div class="founder-body">
+              <div class="founder-name">Charlotte Vermeulen</div>
+              <div class="founder-role">Associée · Expert-comptable &amp; Commissaire aux comptes</div>
+              <p class="founder-bio">Consolidation, reporting financier et normes IFRS. Charlotte accompagne les groupes et entreprises dans l'établissement de leurs états financiers individuels et consolidés, en normes françaises et IFRS.</p>
+              <p class="founder-bio" style="margin-top:12px">Avant de co-fonder Vermeulen Associés, elle a exercé plus de six années chez KPMG où elle est intervenue sur des missions d'audit financier, de reporting consolidé et de normes IFRS.</p>
+              <p class="founder-bio" style="margin-top:12px">Elle a notamment participé à l'établissement des premiers états financiers consolidés IFRS d'une ETI de plus d'un milliard d'euros de chiffre d'affaires dans le cadre d'une émission obligataire, ainsi qu'à la préparation des comptes consolidés d'un groupe dans le cadre de son introduction en bourse.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════
+         EXPERTISES
+    ════════════════════════════════════ -->
+    <section id="expertises" aria-labelledby="expertises-title">
+      <div class="container">
+        <div class="expertises-header rv">
+          <p class="section-tag" style="justify-content:center">Nos expertises</p>
+          <h2 class="h2" id="expertises-title" style="text-align:center">Trois pôles, une ambition : votre performance</h2>
+          <p class="lead" style="margin-top:8px">Une offre intégrée pour les dirigeants qui exigent précision, transparence et résultats mesurables.</p>
+        </div>
+
+        <div class="exp-grid">
+          <article class="exp-card rv d1" aria-labelledby="exp1">
+            <div class="exp-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <span class="exp-num">01</span>
+            <h3 class="exp-name" id="exp1">Conseil financier</h3>
+            <p class="exp-desc">Accompagner les dirigeants dans leurs décisions stratégiques grâce à une information financière fiable et pertinente.</p>
+            <ul class="exp-list">
+              <li>Direction financière externalisée</li>
+              <li>Business plans et budgets</li>
+              <li>Reporting financier</li>
+              <li>Pilotage de la performance</li>
+              <li>Gestion prévisionnelle de trésorerie</li>
+              <li>Structuration de la fonction finance</li>
+              <li>Accompagnement des opérations stratégiques</li>
+            </ul>
+          </article>
+
+          <article class="exp-card rv d2" aria-labelledby="exp2">
+            <div class="exp-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+            <span class="exp-num">02</span>
+            <h3 class="exp-name" id="exp2">Consolidation &amp; Group Reporting</h3>
+            <p class="exp-desc">Produire une information financière consolidée fiable répondant aux exigences des groupes et investisseurs.</p>
+            <ul class="exp-list">
+              <li>Comptes consolidés French GAAP</li>
+              <li>Comptes consolidés IFRS</li>
+              <li>Reporting groupe</li>
+              <li>Conversion IFRS</li>
+              <li>Tax accounting</li>
+              <li>Opérations complexes</li>
+              <li>Accompagnement à la mise en conformité IFRS</li>
+            </ul>
+          </article>
+
+          <article class="exp-card rv d3" aria-labelledby="exp3">
+            <div class="exp-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+            <span class="exp-num">03</span>
+            <h3 class="exp-name" id="exp3">Expertise comptable</h3>
+            <p class="exp-desc">Sécuriser la production financière et fiscale de l'entreprise.</p>
+            <ul class="exp-list">
+              <li>Révision comptable</li>
+              <li>Comptes annuels</li>
+              <li>Fiscalité</li>
+              <li>Gestion juridique courante</li>
+              <li>Assistance aux commissaires aux comptes</li>
+              <li>Accompagnement du dirigeant</li>
+            </ul>
+          </article>
+        </div>
+
+        <!-- Accompagnement detail -->
+        <div class="accomp-wrap rv" style="margin-top:48px">
+          <div class="accomp-left">
+            <p class="section-tag">Notre accompagnement</p>
+            <h2 class="h2" style="color:var(--wh)">Un processus structuré, de A à Z</h2>
+            <p class="lead" style="color:rgba(244,242,240,.65);max-width:100%;margin-bottom:40px">Quatre étapes claires pour transformer votre situation financière avec méthode et transparence.</p>
+            <div class="accomp-steps">
+              <div class="accomp-step"><div class="step-circle">01</div><div class="step-body"><div class="step-t">Diagnostic initial</div><div class="step-d">Analyse approfondie de votre situation, de vos enjeux et de vos objectifs à court et long terme.</div></div></div>
+              <div class="accomp-step"><div class="step-circle">02</div><div class="step-body"><div class="step-t">Proposition sur mesure</div><div class="step-d">Plan d'action personnalisé, clair et chiffré, validé ensemble avant toute mission.</div></div></div>
+              <div class="accomp-step"><div class="step-circle">03</div><div class="step-body"><div class="step-t">Exécution rigoureuse</div><div class="step-d">Déploiement par nos experts avec des points d'avancement réguliers et transparents.</div></div></div>
+              <div class="accomp-step"><div class="step-circle">04</div><div class="step-body"><div class="step-t">Suivi continu</div><div class="step-d">Ajustements proactifs et revues périodiques pour pérenniser les résultats dans la durée.</div></div></div>
+            </div>
+          </div>
+          <div class="accomp-right" role="list" aria-label="Chiffres clés">
+            <div class="accomp-stat" role="listitem"><div class="accomp-stat-n">200+</div><div class="accomp-stat-l">Entreprises accompagnées depuis la création du cabinet</div></div>
+            <div class="accomp-stat" role="listitem"><div class="accomp-stat-n">20+</div><div class="accomp-stat-l">Années d'expérience cumulée de nos associés</div></div>
+            <div class="accomp-stat" role="listitem"><div class="accomp-stat-n">98%</div><div class="accomp-stat-l">Taux de satisfaction mesuré annuellement auprès de nos clients</div></div>
+            <div class="accomp-stat" role="listitem"><div class="accomp-stat-n">€1Md+</div><div class="accomp-stat-l">D'actifs consolidés ou sous conseil en gestion active</div></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════
+         RÉFÉRENCES
+    ════════════════════════════════════ -->
+    <section id="references" aria-labelledby="ref-title">
+      <div class="container">
+        <div class="ref-header rv">
+          <p class="section-tag" style="justify-content:center">Références</p>
+          <h2 class="h2" id="ref-title" style="text-align:center">Ils nous font confiance</h2>
+          <p class="lead" style="margin-top:8px">Des PME aux groupes cotés, nous accompagnons des entreprises de tous secteurs dans leur pilotage financier.</p>
+        </div>
+      </div>
+
+      <!-- Logo marquee -->
+      <div class="marquee-wrap rv">
+        <div class="marquee-fade-l" aria-hidden="true"></div>
+        <div class="marquee-fade-r" aria-hidden="true"></div>
+        <div class="marquee-track" aria-label="Clients et références" role="list">
+          <!-- First copy -->
+          <div class="logo-chip" role="listitem"><div class="logo-chip-name">Altrium Group</div><div class="logo-chip-sector">Holding industriel</div></div>
+          <div class="logo-chip" role="listitem"><div class="logo-chip-name">NovaTech BV</div><div class="logo-chip-sector">Technologie</div></div>
+          <div class="logo-chip" role="listitem"><div class="logo-chip-name">Meridian RE</div><div class="logo-chip-sector">Immobilier</div></div>
+          <div class="logo-chip" role="listitem"><div class="logo-chip-name">Crestwood SA</div><div class="logo-chip-sector">Distribution</div></div>
+          <div class="logo-chip" role="listitem"><div class="logo-chip-name">Helix Capital</div><div class="logo-chip-sector">Private Equity</div></div>
+          <div class="logo-chip" role="listitem"><div class="logo-chip-name">Urbanis SRL</div><div class="logo-chip-sector">Construction</div></div>
+          <div class="logo-chip" role="listitem"><div class="logo-chip-name">BioEssence Labs</div><div class="logo-chip-sector">Pharmaceutique</div></div>
+          <div class="logo-chip" role="listitem"><div class="logo-chip-name">Portalia Group</div><div class="logo-chip-sector">Logistique</div></div>
+          <div class="logo-chip" role="listitem"><div class="logo-chip-name">Velox SAS</div><div class="logo-chip-sector">Conseil &amp; Services</div></div>
+          <!-- Second copy for seamless loop -->
+          <div class="logo-chip" aria-hidden="true"><div class="logo-chip-name">Altrium Group</div><div class="logo-chip-sector">Holding industriel</div></div>
+          <div class="logo-chip" aria-hidden="true"><div class="logo-chip-name">NovaTech BV</div><div class="logo-chip-sector">Technologie</div></div>
+          <div class="logo-chip" aria-hidden="true"><div class="logo-chip-name">Meridian RE</div><div class="logo-chip-sector">Immobilier</div></div>
+          <div class="logo-chip" aria-hidden="true"><div class="logo-chip-name">Crestwood SA</div><div class="logo-chip-sector">Distribution</div></div>
+          <div class="logo-chip" aria-hidden="true"><div class="logo-chip-name">Helix Capital</div><div class="logo-chip-sector">Private Equity</div></div>
+          <div class="logo-chip" aria-hidden="true"><div class="logo-chip-name">Urbanis SRL</div><div class="logo-chip-sector">Construction</div></div>
+          <div class="logo-chip" aria-hidden="true"><div class="logo-chip-name">BioEssence Labs</div><div class="logo-chip-sector">Pharmaceutique</div></div>
+          <div class="logo-chip" aria-hidden="true"><div class="logo-chip-name">Portalia Group</div><div class="logo-chip-sector">Logistique</div></div>
+          <div class="logo-chip" aria-hidden="true"><div class="logo-chip-name">Velox SAS</div><div class="logo-chip-sector">Conseil &amp; Services</div></div>
+        </div>
+      </div>
+
+      <div class="container">
+        <!-- Key results -->
+        <div class="ref-results rv" role="list" aria-label="Résultats clés">
+          <div class="ref-result" role="listitem">
+            <div class="ref-result-n">-32%</div>
+            <div class="ref-result-l">Réduction de la charge fiscale moyenne constatée chez nos clients PME</div>
+          </div>
+          <div class="ref-result" role="listitem">
+            <div class="ref-result-n">+18%</div>
+            <div class="ref-result-l">Amélioration du cash-flow opérationnel sur les 12 premiers mois d'accompagnement</div>
+          </div>
+          <div class="ref-result" role="listitem">
+            <div class="ref-result-n">100%</div>
+            <div class="ref-result-l">Des dossiers déposés dans les délais légaux, sans exception ni pénalité</div>
+          </div>
+          <div class="ref-result" role="listitem">
+            <div class="ref-result-n">3.2×</div>
+            <div class="ref-result-l">ROI moyen généré sur les missions de conseil financier stratégique</div>
+          </div>
+        </div>
+
+        <!-- Testimonials -->
+        <div class="ref-testimonials" style="margin-top:72px" role="list">
+          <blockquote class="test-card rv d1" role="listitem">
+            <div class="test-q" aria-hidden="true">"</div>
+            <p class="test-text">Vermeulen a transformé notre vision financière. Leur analyse rigoureuse nous a permis d'identifier des leviers de valeur que nous n'aurions jamais vus seuls.</p>
+            <footer class="test-author"><div class="test-av" aria-hidden="true">SM</div><div><div class="test-name">Sophie M.</div><div class="test-role">DG, groupe industriel</div></div></footer>
+          </blockquote>
+          <blockquote class="test-card rv d2" role="listitem">
+            <div class="test-q" aria-hidden="true">"</div>
+            <p class="test-text">La migration vers les normes IFRS semblait insurmontable. Vermeulen a tout piloté avec une précision et une pédagogie remarquables. Zéro surprise, zéro retard.</p>
+            <footer class="test-author"><div class="test-av" aria-hidden="true">TK</div><div><div class="test-name">Thomas K.</div><div class="test-role">CFO, scale-up tech</div></div></footer>
+          </blockquote>
+          <blockquote class="test-card rv d3" role="listitem">
+            <div class="test-q" aria-hidden="true">"</div>
+            <p class="test-text">En dix ans, Vermeulen est devenu notre copilote stratégique. Leur capacité à anticiper les enjeux réglementaires et à proposer des solutions concrètes est incomparable.</p>
+            <footer class="test-author"><div class="test-av" aria-hidden="true">ML</div><div><div class="test-name">Marie L.</div><div class="test-role">Fondatrice, cabinet conseil</div></div></footer>
+          </blockquote>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════
+         CONTACT
+    ════════════════════════════════════ -->
+    <section id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="contact-grid">
+          <div class="rv" style="text-align:center">
+            <p class="section-tag" style="justify-content:center">Contact</p>
+            <h2 class="h2" id="contact-title">Discutons de votre projet</h2>
+            <p class="lead" style="max-width:560px;margin-left:auto;margin-right:auto">Un premier échange de 30 minutes, sans engagement, pour comprendre vos enjeux et définir ensemble la meilleure approche.</p>
+          </div>
+
+          <div class="cform rv d2" style="margin:0 auto">
+            <form id="cform" novalidate aria-label="Formulaire de contact">
+              <div class="form-row">
+                <div class="fg"><label class="fl-lbl" for="p">Prénom <span class="req">*</span></label><input class="fi" type="text" id="p" name="prenom" autocomplete="given-name" required aria-required="true" placeholder="Jean" /></div>
+                <div class="fg"><label class="fl-lbl" for="n">Nom <span class="req">*</span></label><input class="fi" type="text" id="n" name="nom" autocomplete="family-name" required aria-required="true" placeholder="Dupont" /></div>
+              </div>
+              <div class="fg"><label class="fl-lbl" for="e">Email professionnel <span class="req">*</span></label><input class="fi" type="email" id="e" name="email" autocomplete="email" required aria-required="true" placeholder="jean@entreprise.be" /></div>
+              <div class="fg"><label class="fl-lbl" for="t">Téléphone</label><input class="fi" type="tel" id="t" name="tel" autocomplete="tel" placeholder="+32 4XX XX XX XX" /></div>
+              <div class="fg">
+                <label class="fl-lbl" for="svc">Service souhaité</label>
+                <select class="fs" id="svc" name="service">
+                  <option value="">Sélectionner…</option>
+                  <option>Conseil Financier</option>
+                  <option>Consolidation</option>
+                  <option>Expertise Comptable</option>
+                  <option>Plusieurs services</option>
+                </select>
+              </div>
+              <div class="fg"><label class="fl-lbl" for="msg">Message <span class="req">*</span></label><textarea class="ft" id="msg" name="message" required aria-required="true" placeholder="Décrivez brièvement votre situation et vos besoins…"></textarea></div>
+              <button type="submit" class="fsubmit">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                Envoyer
+              </button>
+              <div class="fsuccess" id="fsuccess" role="alert" aria-live="polite">✓ Merci ! Nous vous répondrons sous 24h ouvrées.</div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-top">
+        <div><div class="footer-logo">Vermeulen</div><p class="footer-desc">Votre partenaire comptable et pilote financier. Cabinet pluridisciplinaire basé à Paris.</p></div>
+        <nav aria-label="Services"><div class="fcol-t">Expertises</div><ul class="flinks"><li><a href="#expertises">Conseil Financier</a></li><li><a href="#expertises">Consolidation</a></li><li><a href="#expertises">Expertise Comptable</a></li></ul></nav>
+        <nav aria-label="Cabinet"><div class="fcol-t">Cabinet</div><ul class="flinks"><li><a href="#cabinet">Qui sommes-nous</a></li><li><a href="#cabinet">Valeurs</a></li><li><a href="#cabinet">Les fondateurs</a></li><li><a href="#references">Références</a></li></ul></nav>
+        <nav aria-label="Contact"><div class="fcol-t">Contact</div><ul class="flinks"><li><a href="#contact">Nous écrire</a></li><li><a href="mailto:contact@cavermeulen.fr">contact@cavermeulen.fr</a></li></ul></nav>
+      </div>
+      <div class="footer-bot">
+        <p class="footer-copy">© 2025 Vermeulen. Tous droits réservés.</p>
+        <nav class="footer-legal" aria-label="Mentions légales"><a href="#">Confidentialité</a><a href="#">Mentions légales</a><a href="#">Cookies</a></nav>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  /* ── SPLASH ── */
+  (function () {
+    const splash = document.getElementById('splash');
+    const spWord = document.getElementById('sp-word');
+    const cursor = document.getElementById('sp-cursor');
+
+    document.body.style.overflow = 'hidden';
+
+    function slideUp() {
+      splash.classList.add('sp-up');
+      setTimeout(() => {
+        splash.classList.add('sp-hidden');
+        document.body.style.overflow = '';
+      }, 2750);
+    }
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setTimeout(slideUp, 500);
+      return;
+    }
+
+    /* Mobile: no cursor, brief hold then slide */
+    if (window.matchMedia('(pointer: coarse)').matches) {
+      setTimeout(slideUp, 1100);
+      splash.addEventListener('click', slideUp, { once: true });
+      return;
+    }
+
+    /* Desktop — cursor animation sequence
+       t=500  cursor fades in at offset (upper-right of word)
+       t=580  cursor moves toward word center (720ms ease)
+       t=1300 hover states — word expands, cursor ring expands
+       t=1600 click — word + cursor press
+       t=1720 restore
+       t=1840 slide up                                          */
+
+    const startX =  window.innerWidth  * 0.26;
+    const startY = -window.innerHeight * 0.09;
+    cursor.style.transform = `translate(-50%, -50%) translate(${startX}px, ${startY}px)`;
+
+    setTimeout(() => {
+      /* Fade cursor in at start position */
+      cursor.style.transition = 'opacity .35s ease';
+      cursor.style.opacity = '1';
+
+      setTimeout(() => {
+        /* Move cursor to word center */
+        cursor.style.transition = 'opacity .35s ease, transform .72s cubic-bezier(.25,.1,.25,1)';
+        cursor.style.transform  = 'translate(-50%, -50%)';
+
+        setTimeout(() => {
+          /* Hover state */
+          spWord.classList.add('sp-hov');
+          cursor.classList.add('sp-hov');
+
+          setTimeout(() => {
+            /* Click press */
+            spWord.classList.replace('sp-hov', 'sp-tap');
+            cursor.classList.replace('sp-hov', 'sp-tap');
+
+            setTimeout(() => {
+              /* Restore then slide */
+              spWord.classList.remove('sp-tap');
+              cursor.classList.remove('sp-tap');
+              setTimeout(slideUp, 110);
+            }, 115);
+          }, 300);
+        }, 720);
+      }, 80);
+    }, 500);
+
+    splash.addEventListener('click', slideUp, { once: true });
+  })();
+
+  /* ═══════════════════════════════════
+     SCROLL EXPANSION HERO
+  ═══════════════════════════════════ */
+  const heroScene  = document.getElementById('hero-scene');
+  const heroCard   = document.getElementById('hero-card');
+  const heroWM     = document.getElementById('hero-wm');
+  const hcContent  = document.getElementById('hc-content');
+  const hcScroll   = document.getElementById('hc-scroll');
+
+  function eioC(t) { return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2; }
+  function eoC(t)  { return 1-Math.pow(1-t,3); }
+
+  function startDims() {
+    const vw = window.innerWidth;
+    if (vw <= 768)  return { w: vw - 32, h: Math.min(256, window.innerHeight * .42) };
+    if (vw <= 1024) return { w: Math.min(480, vw * .85), h: 320 };
+    return { w: 640, h: 390 };
+  }
+
+  function heroUpdate() {
+    const st = window.scrollY;
+    const sceneTop = heroScene.offsetTop;
+    const range    = heroScene.offsetHeight - window.innerHeight;
+    const raw = Math.max(0, Math.min(1, (st - sceneTop) / range));
+    const p   = eioC(raw);
+    const pF  = eoC(Math.min(1, raw * 2.2));
+
+    const vw = window.innerWidth, vh = window.innerHeight;
+    const { w: sw, h: sh } = startDims();
+
+    heroCard.style.width        = (sw + (vw - sw) * p) + 'px';
+    heroCard.style.height       = (sh + (vh - sh) * p) + 'px';
+    heroCard.style.borderRadius = (18 * (1 - p)) + 'px';
+    heroCard.style.boxShadow    = `0 0 ${60*(1-p)}px rgba(0,0,0,${.35*(1-p)})`;
+
+    const wA = Math.max(0, 1 - pF * 2.0);
+    heroWM.style.opacity   = wA;
+    heroWM.style.transform = `translateY(${-pF * 48}px)`;
+
+    const show = raw > 0.42;
+    hcContent.classList.toggle('vis', show);
+    hcScroll.classList.toggle('vis', show);
+  }
+
+  window.addEventListener('scroll', heroUpdate, { passive: true });
+  window.addEventListener('resize', heroUpdate, { passive: true });
+  const { w: iw, h: ih } = startDims();
+  heroCard.style.width  = iw + 'px';
+  heroCard.style.height = ih + 'px';
+  heroUpdate();
+
+  /* ═══════════════════════════════════
+     NAVBAR + ACTIVE SECTION
+  ═══════════════════════════════════ */
+  const navbar   = document.getElementById('navbar');
+  const burger   = document.querySelector('.nav-burger');
+  const mobMenu  = document.getElementById('nav-mob');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  function navUpdate() {
+    const pastHero = window.scrollY > (heroScene.offsetHeight - window.innerHeight + 80);
+    navbar.classList.toggle('scrolled', pastHero);
+  }
+  window.addEventListener('scroll', navUpdate, { passive: true });
+  navUpdate();
+
+  burger.addEventListener('click', () => {
+    const o = mobMenu.classList.toggle('open');
+    burger.classList.toggle('open', o);
+    burger.setAttribute('aria-expanded', o);
+    document.body.style.overflow = o ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mob-link').forEach(l => l.addEventListener('click', () => {
+    mobMenu.classList.remove('open');
+    burger.classList.remove('open');
+    burger.setAttribute('aria-expanded','false');
+    document.body.style.overflow = '';
+  }));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && mobMenu.classList.contains('open')) {
+      mobMenu.classList.remove('open'); burger.classList.remove('open');
+      burger.setAttribute('aria-expanded','false'); document.body.style.overflow = '';
+    }
+  });
+
+  /* ── Scroll Spy via IntersectionObserver ──────────────────────────────
+     Strategy: observe each section with a root margin that clips the top
+     by the nav height and the bottom by 50 % of the viewport.
+     A section "activates" when its top crosses into the upper half of the
+     visible area. We keep a Map to handle overlapping entries robustly.
+  ─────────────────────────────────────────────────────────────────────── */
+  const SPY_SECTIONS = ['cabinet', 'expertises', 'references', 'contact'];
+  const spyActive    = new Map(); // id → isIntersecting
+
+  function spyUpdate() {
+    /* Among intersecting sections, activate the one whose top is
+       closest to (but still below) the nav bottom edge. */
+    let bestId  = null;
+    let bestTop = -Infinity;
+
+    SPY_SECTIONS.forEach(id => {
+      if (!spyActive.get(id)) return;
+      const el  = document.getElementById(id);
+      if (!el) return;
+      const top = el.getBoundingClientRect().top;
+      /* Prefer the section whose top is highest on screen (most negative
+         or smallest positive value), i.e. the one we are most "inside". */
+      if (top <= 80 && top > bestTop) { bestTop = top; bestId = id; }
+    });
+
+    /* Fallback: if nothing qualifies (top half not yet reached),
+       leave the last active link highlighted. */
+    if (bestId) {
+      navLinks.forEach(a =>
+        a.classList.toggle('active', a.dataset.section === bestId));
+    }
+  }
+
+  const spyObs = new IntersectionObserver(entries => {
+    entries.forEach(e => spyActive.set(e.target.id, e.isIntersecting));
+    spyUpdate();
+  }, {
+    /* Top offset = nav height (68 px) so section activates as it appears
+       below the nav. Bottom offset clips away the bottom 45 % of the
+       viewport so only content in the upper zone triggers. */
+    rootMargin: `-68px 0px -45% 0px`,
+    threshold:  [0, 0.05, 0.1],
+  });
+
+  SPY_SECTIONS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { spyActive.set(id, false); spyObs.observe(el); }
+  });
+
+  /* Also re-evaluate on scroll for rock-solid accuracy */
+  window.addEventListener('scroll', spyUpdate, { passive: true });
+
+  /* ═══════════════════════════════════
+     SCROLL REVEAL
+  ═══════════════════════════════════ */
+  const rvObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); rvObs.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.rv').forEach(el => rvObs.observe(el));
+
+  /* ═══════════════════════════════════
+     CONTACT FORM
+  ═══════════════════════════════════ */
+  const form = document.getElementById('cform');
+  const fsuc = document.getElementById('fsuccess');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const btn = form.querySelector('.fsubmit');
+    let ok = true;
+    form.querySelectorAll('[required]').forEach(inp => {
+      if (!inp.value.trim()) {
+        inp.style.borderColor = '#c0392b';
+        inp.setAttribute('aria-invalid','true');
+        ok = false;
+        inp.addEventListener('input', () => { inp.style.borderColor=''; inp.removeAttribute('aria-invalid'); }, { once:true });
+      }
+    });
+    if (!ok) return;
+    btn.textContent = 'Envoi en cours…'; btn.disabled = true;
+    setTimeout(() => { form.style.display='none'; fsuc.style.display='block'; }, 1200);
+  });
+  </script>
+</body>
+</html>
