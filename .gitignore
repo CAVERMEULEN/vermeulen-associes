@@ -1,0 +1,11 @@
+# Tout ignorer par défaut
+*
+.*
+
+# Garder uniquement les fichiers du site
+!.gitignore
+!index.html
+!vercel.json
+!logos/
+!logos/**
+!*.mp4
