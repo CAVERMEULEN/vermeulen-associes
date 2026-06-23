@@ -6,6 +6,8 @@
 !.gitignore
 !index.html
 !vercel.json
+!sitemap.xml
+!robots.txt
+!hero-forest.jpg
 !logos/
 !logos/**
-!*.mp4
