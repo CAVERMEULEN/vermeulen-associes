@@ -811,7 +811,9 @@
     .fs { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235A6A62' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; }
     .fsubmit { width: 100%; padding: 16px; background: var(--dg); color: var(--fl); font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; border-radius: var(--r2); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: transform var(--tf), box-shadow var(--tf), background var(--tf); touch-action: manipulation; }
     .fsubmit:hover { background: var(--vp); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,40,27,.25); }
-    .fsuccess { display: none; background: rgba(208,241,123,.15); border: 1px solid rgba(208,241,123,.4); border-radius: var(--r2); padding: 16px; color: var(--dg); font-size: 15px; font-weight: 500; text-align: center; }
+    .fsuccess { display: none; background: rgba(208,241,123,.15); border: 1px solid rgba(208,241,123,.5); border-radius: var(--r3); padding: 48px 32px; color: var(--dg); font-size: 17px; font-weight: 600; text-align: center; line-height: 1.6; }
+    .fsuccess .fsuccess-icon { font-size: 40px; display: block; margin-bottom: 16px; }
+    .fsuccess .fsuccess-sub { display: block; margin-top: 8px; font-size: 14px; font-weight: 400; color: var(--tm); }
     .linkedin-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; font-size: 13px; font-weight: 600; letter-spacing: .04em; color: var(--dg); text-decoration: none; opacity: .65; transition: opacity var(--tf); }
     .linkedin-link:hover { opacity: 1; }
 
@@ -1443,7 +1445,11 @@
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                 Envoyer
               </button>
-              <div class="fsuccess" id="fsuccess" role="alert" aria-live="polite">✓ Votre message a bien été envoyé. Nous revenons vers vous très rapidement.</div>
+              <div class="fsuccess" id="fsuccess" role="alert" aria-live="polite">
+                <span class="fsuccess-icon">✓</span>
+                Votre message a bien été envoyé.
+                <span class="fsuccess-sub">Nous revenons vers vous très rapidement.</span>
+              </div>
             </form>
           </div>
           <a href="https://fr.linkedin.com/company/vermeulenassocies" target="_blank" rel="noopener noreferrer" class="linkedin-link" aria-label="Suivez-nous sur LinkedIn">
@@ -1944,7 +1950,7 @@
         body: data
       });
       if (res.ok) {
-        form.style.display = 'none';
+        Array.from(form.children).forEach(el => { if (el !== fsuc) el.style.display = 'none'; });
         fsuc.style.display = 'block';
       } else {
         btn.textContent = 'Erreur, réessayer';
