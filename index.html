@@ -395,8 +395,9 @@
     }
 
     .hero-brand {
-      font-size: clamp(10px,.85vw,12px);
+      font-size: clamp(12px,1.05vw,15px);
       font-weight: 400; letter-spacing: .3em; text-transform: uppercase;
+      padding-left: 1ch;
       color: rgba(208,241,123,.6);
     }
 
@@ -411,7 +412,7 @@
       color: var(--wh);
       display: block;
     }
-    .he-line.he-dim { color: var(--wh); }
+    .he-line.he-dim { color: var(--fl); }
 
     /* ── Ticker valeurs ── */
     .hero-ticker-track {
@@ -968,9 +969,8 @@
 
       <!-- Contenu -->
       <div class="hero-content">
-        <div class="hero-brand">Vermeulen Associés</div>
-
         <div class="hero-main">
+          <div class="hero-brand">Vermeulen Associés</div>
           <div class="hero-expertises">
             <span class="he-line" id="hero-title">Conseil</span>
             <span class="he-line">financier,</span>
