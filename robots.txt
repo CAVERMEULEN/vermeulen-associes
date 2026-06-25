@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://vermeulen-associés.com/sitemap.xml
+Sitemap: https://vermeulen-associes.com/sitemap.xml
